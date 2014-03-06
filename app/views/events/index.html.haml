@@ -56,3 +56,14 @@
           %td= link_to 'Show', event
           %td= link_to 'Edit', edit_event_path(event)
           %td= link_to 'Destroy', event, :data => { confirm: 'Are you sure?' }, :method => :delete
+      %div= paginate @events
+      %div
+        = search_form_for @q do |f|
+          = #f.label :name_cont
+          = f.label "Name contains: "
+          = f.text_field :name_cont
+          = f.label "Desc contains: "
+          = f.text_field :desc_cont
+          = f.label "Date greater than: "
+          = f.datetime_select :start_gt
+          = f.submit

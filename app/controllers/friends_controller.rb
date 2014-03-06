@@ -3,7 +3,7 @@ class FriendsController < ApplicationController
 
   # GET /friends
   def index
-    @friends = Friend.all
+    @friends = Friend.page(params[:page]).where(creator_id: current_user.id)
   end
 
   # GET /friends/1
@@ -22,7 +22,7 @@ class FriendsController < ApplicationController
   # POST /friends
   def create
     @friend = Friend.new(friend_params)
-
+    @friend.creator_id = current_user.id
     if @friend.save
       redirect_to @friend, notice: 'Friend was successfully created.'
     else

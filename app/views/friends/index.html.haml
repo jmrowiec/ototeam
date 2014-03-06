@@ -32,3 +32,4 @@
           %td= link_to 'Show', friend
           %td= link_to 'Edit', edit_friend_path(friend)
           %td= link_to 'Destroy', friend, :data => { confirm: 'Are you sure?' }, :method => :delete
+    %div= paginate @friends

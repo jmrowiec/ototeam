@@ -10,7 +10,7 @@
   Event.create(
       name: "Event #{i}",
       start: Date.new(2000+i, 1+i, 10+i),
-      desc: "Opis #{i}",
+      desc: ('a'..'z').to_a.shuffle[0,32].join,
       invFrom: Date.new(2000+i, 1+i, 10+i),
       invTo: Date.new(2000+i, 1+i, 12+i),
       limitFrom: 2*i,

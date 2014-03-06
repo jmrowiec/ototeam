@@ -1,9 +1,11 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
-
+  before_filter :authenticate_user!
   # GET /events
   def index
-    @events = Event.all
+    @q = current_user.events.search(params[:q])
+    @events = @q.result(distinct: true).page(params[:page])
+  #  @events = Event.page params[:page]
   end
 
   # GET /events/1
@@ -22,7 +24,10 @@ class EventsController < ApplicationController
   # POST /events
   def create
     @event = Event.new(event_params)
-
+    @event.creator ||= current_user
+    #if !event_params.creator_id.defined?
+    #  @event.creator_id = current_user.id
+    #end
     if @event.save
       redirect_to @event, notice: 'Event was successfully created.'
     else
@@ -53,6 +58,6 @@ class EventsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def event_params
-      params.require(:event).permit(:name, :start, :desc, :invFrom, :invTo, :limitFrom, :limitTo, :answerTime, :showPpls)
+      params[:event]
     end
 end
